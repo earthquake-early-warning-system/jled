@@ -15,6 +15,7 @@ lint:
 
 ci:
 	platformio ci $(CIOPTS) --lib="examples/morse" examples/morse/morse.ino 
+	platformio ci $(CIOPTS) examples/candle/candle.ino
 	platformio ci $(CIOPTS) examples/multiled/multiled.ino 
 	platformio ci $(CIOPTS) examples/user_func/user_func.ino 
 	platformio ci $(CIOPTS) examples/hello/hello.ino 

@@ -21,7 +21,6 @@
 //
 #include "jled_base.h"  // NOLINT
 
-
 namespace jled {
 
 // pre-calculated fade-on function. This table samples the function
@@ -55,8 +54,18 @@ uint8_t fadeon_func(uint32_t t, uint16_t period) {
     return (((t - x0) * (y1 - y0)) >> 5) + y0;
 }
 
-// void* BrightnessEvaluator::operator new(size_t, void *ptr) {
-//     return ptr;
-// }
+static uint32_t rand_ = 0;
+
+void rand_seed(uint32_t seed) { rand_ = seed; }
+
+uint8_t rand8() {
+    if (rand_ & 1) {
+        rand_ = (rand_ >> 1);
+    } else {
+        rand_ = (rand_ >> 1) ^ 0x7FFFF159;
+    }
+
+    return (uint8_t)rand_;
+}
 
 };  // namespace jled

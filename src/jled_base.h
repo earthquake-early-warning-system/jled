@@ -46,6 +46,8 @@ static constexpr uint8_t kFullBrightness = 255;
 static constexpr uint8_t kZeroBrightness = 0;
 
 uint8_t fadeon_func(uint32_t t, uint16_t period);
+uint8_t rand8();
+void rand_seed(uint32_t s);
 
 // a function f(t,period,param) that calculates the LEDs brightness for a given
 // point in time and the given period. param is an optionally user provided
@@ -146,6 +148,29 @@ class BreatheBrightnessEvaluator : public BrightnessEvaluator {
         const decltype(period_) periodh = period_ >> 1;
         return t < periodh ? fadeon_func(t, periodh)
                            : fadeon_func(period_ - t, periodh);
+    }
+};
+
+// fade LED off
+class CandleBrightnessEvaluator : public BrightnessEvaluator {
+    uint16_t speed_;
+    mutable uint8_t last_;
+    using BrightnessEvaluator::BrightnessEvaluator;
+
+ public:
+    CandleBrightnessEvaluator() {}
+    BrightnessEvaluator* clone(void* ptr) const override {
+        return new (ptr) CandleBrightnessEvaluator();
+    }
+    uint16_t Period() const override { return 10000; }
+    uint8_t Eval(uint32_t t) const override {
+        // idea https://cpldcpu.wordpress.com/2013/12/08/hacking-a-candleflicker-led/
+        static constexpr uint8_t kCandleTable[] = {
+            5, 10, 20, 30, 50, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 255};
+        if ((t & 31) != 0) return last_;
+        const auto rnd = rand8() & 0x2f;
+        last_ = (rnd > 15) ? 255 : kCandleTable[rnd & 0xf];
+        return last_;
     }
 };
 
@@ -268,6 +293,13 @@ class TJLed {
         return static_cast<B&>(*this);
     }
 
+    // Set effect to Candle light simulation
+    B& Candle() {
+        brightness_eval_ =
+            new (brightness_eval_buf_) CandleBrightnessEvaluator();
+        return static_cast<B&>(*this);
+    }
+
     // Use a user provided brightness evaluator.
     B& UserFunc(BrightnessEvaluator* ube) {
         brightness_eval_ = ube;
@@ -377,7 +409,7 @@ class TJLed {
     // placment new.
 #ifdef ESP8266
     // ESP8266 needs DWORD-alignment
-    char brightness_eval_buf_[MAX_SIZE]  __attribute__ ((aligned (4)));  // NOLINT
+    char brightness_eval_buf_[MAX_SIZE] __attribute__((aligned(4)));  // NOLINT
 #else
     char brightness_eval_buf_[MAX_SIZE];
 #endif
@@ -423,7 +455,7 @@ class TJLedSequence {
     enum eMode { SEQUENCE, PARALLEL };
     TJLedSequence() = delete;
 
-    template<size_t N>
+    template <size_t N>
     TJLedSequence(eMode mode, T (&leds)[N]) : TJLedSequence(mode, leds, N) {}
 
     TJLedSequence(eMode mode, T* leds, size_t n)
