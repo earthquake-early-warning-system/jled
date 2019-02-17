@@ -134,8 +134,6 @@ class FadeOffBrightnessEvaluator : public CloneableBrightnessEvaluator {
 //   http://sean.voisen.org/blog/2011/10/breathing-led-with-arduino/
 // But we do it with integers only.
 class BreatheBrightnessEvaluator : public CloneableBrightnessEvaluator {
-    uint16_t period_;
-
  public:
     BreatheBrightnessEvaluator() = delete;
     explicit BreatheBrightnessEvaluator(uint16_t period) : period_(period) {}
@@ -151,13 +149,12 @@ class BreatheBrightnessEvaluator : public CloneableBrightnessEvaluator {
     }
 };
 
-class CandleBrightnessEvaluator : public BrightnessEvaluator {
-    uint16_t speed_;
+class CandleBrightnessEvaluator : public CloneableBrightnessEvaluator {
+    uint8_t speed_;
     uint8_t jitter_;
     uint16_t period_;
     mutable uint8_t last_ = 0;
     mutable uint32_t last_t_ = 0;
-    using BrightnessEvaluator::BrightnessEvaluator;
 
  public:
     // speed - speed of effect (0..15). 0 fastest. Each increment by 1
