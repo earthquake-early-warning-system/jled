@@ -45,6 +45,8 @@ void loop() {
             * [Blinking example](#blinking-example)
         * [Breathing](#breathing)
             * [Breathing example](#breathing-example)
+        * [Candle](#candle)
+            * [Candle example](#candle-example)
         * [FadeOn](#fadeon)
             * [FadeOn example](#fadeon-example)
         * [FadeOff](#fadeoff)
@@ -200,12 +202,31 @@ void loop() {
 }
 ```
 
+#### Candle
+
+In candle mode the random flickering of a candle is simulated.
+
+##### Candle example
+
+```c++
+#include <jled.h>
+
+// Candle on LED pin 13 (PWM capable). 
+auto led = JLed(13).Candle();
+
+void setup() { }
+
+void loop() {
+  led.Update();
+}
+```
+
 #### FadeOn
 
 In FadeOn mode, the LED is smoothly faded on to 100% brightness using PWM.
 
-The brightness function uses an approximation of this function:
-
+The brightness function uses an approximation of this function (example with
+period 1000):
 
 [![fadeon function](doc/fadeon_plot.png)](https://www.wolframalpha.com/input/?i=plot+(exp(sin((t-1000%2F2.)*PI%2F1000))-0.36787944)*108.0++t%3D0+to+1000)
 
