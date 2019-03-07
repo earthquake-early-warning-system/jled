@@ -204,6 +204,12 @@ void loop() {
 
 In FadeOn mode, the LED is smoothly faded on to 100% brightness using PWM.
 
+The brightness function uses an approximation of this function:
+
+
+[![fadeon function](doc/fadeon_plot.png)](https://www.wolframalpha.com/input/?i=plot+(exp(sin((t-1000%2F2.)*PI%2F1000))-0.36787944)*108.0++t%3D0+to+1000)
+
+
 ##### FadeOn example
 
 ```c++
