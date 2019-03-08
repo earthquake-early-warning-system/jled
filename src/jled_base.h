@@ -134,6 +134,7 @@ class FadeOffBrightnessEvaluator : public CloneableBrightnessEvaluator {
 //   http://sean.voisen.org/blog/2011/10/breathing-led-with-arduino/
 // But we do it with integers only.
 class BreatheBrightnessEvaluator : public CloneableBrightnessEvaluator {
+    uint16_t period_;
  public:
     BreatheBrightnessEvaluator() = delete;
     explicit BreatheBrightnessEvaluator(uint16_t period) : period_(period) {}
