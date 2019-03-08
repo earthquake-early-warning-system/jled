@@ -31,8 +31,6 @@ namespace jled {
 // approximate the original function (so we do not need fp-ops).
 // fade-off and breath functions are all derived from fade-on, see
 // below.
-// (To save some additional bytes, we could place it in PROGMEM
-// sometime)
 static constexpr uint8_t kFadeOnTable[] = {0,   3,   13,  33, 68,
                                            118, 179, 232, 255};
 

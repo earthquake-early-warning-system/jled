@@ -1,5 +1,5 @@
 // JLed candle simulation
-// Copyright 2017 by Jan Delgado. All rights reserved.
+// Copyright 2019 by Jan Delgado. All rights reserved.
 // https://github.com/jandelgado/jled
 #include <jled.h>
 
@@ -9,5 +9,5 @@ void setup() {
 }
 
 void loop() {
-  led.Update();
+    led.Update();
 }
