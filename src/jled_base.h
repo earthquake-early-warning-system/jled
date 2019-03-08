@@ -154,7 +154,7 @@ class CandleBrightnessEvaluator : public CloneableBrightnessEvaluator {
     uint8_t speed_;
     uint8_t jitter_;
     uint16_t period_;
-    mutable uint8_t last_ = 0;
+    mutable uint8_t last_ = 5;
     mutable uint32_t last_t_ = 0;
 
  public:
