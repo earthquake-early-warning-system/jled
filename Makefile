@@ -38,7 +38,7 @@ monitor:
 	pio device monitor 
 
 test:
-	$(MAKE) -C test coverage
+	$(MAKE) -C test clobber coverage OPT=-O0
 
 tags:
 	ctags -R

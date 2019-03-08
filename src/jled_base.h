@@ -157,15 +157,19 @@ class CandleBrightnessEvaluator : public CloneableBrightnessEvaluator {
     mutable uint32_t last_t_ = 0;
 
  public:
+    CandleBrightnessEvaluator() = delete;
+
     // speed - speed of effect (0..15). 0 fastest. Each increment by 1
     //         halfes the speed.
     // jitter - amount of jittering to apply. 0 - no jitter, 15 - candle,
     //                                        64 - fire, 255 - storm
     CandleBrightnessEvaluator(uint8_t speed, uint8_t jitter, uint16_t period)
         : speed_(speed), jitter_(jitter), period_(period) {}
+
     BrightnessEvaluator* clone(void* ptr) const override {
         return new (ptr) CandleBrightnessEvaluator(*this);
     }
+
     uint16_t Period() const override { return period_; }
     uint8_t Eval(uint32_t t) const override {
         // idea from
