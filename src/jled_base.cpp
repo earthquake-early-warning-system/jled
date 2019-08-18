@@ -31,8 +31,15 @@ namespace jled {
 // approximate the original function (so we do not need fp-ops).
 // fade-off and breath functions are all derived from fade-on, see
 // below.
-static constexpr uint8_t kFadeOnTable[] = {0,   3,   13,  33, 68,
-                                           118, 179, 232, 255};
+
+// For active high
+//static constexpr uint8_t kFadeOnTable[] = {0,   3,   13,  33, 68,
+//                                           118, 179, 232, 255};
+
+// For active low
+static constexpr uint8_t kFadeOnTable[] = {255,   232,   179,  118, 68,
+                                           33, 13, 3, 0};
+                                           
 
 // https://www.wolframalpha.com/input/?i=plot+(exp(sin((x-100%2F2.)*PI%2F100))-0.36787944)*108.0++x%3D0+to+100
 // The fade-on func is an approximation of

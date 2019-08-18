@@ -42,8 +42,8 @@
 
 namespace jled {
 
-static constexpr uint8_t kFullBrightness = 255;
-static constexpr uint8_t kZeroBrightness = 0;
+static constexpr uint8_t kFullBrightness = 0;//255;
+static constexpr uint8_t kZeroBrightness = 255; //0;
 
 uint8_t fadeon_func(uint32_t t, uint16_t period);
 uint8_t rand8();
